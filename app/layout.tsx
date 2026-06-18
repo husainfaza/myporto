@@ -4,6 +4,7 @@ import {
   Instrument_Serif,
   JetBrains_Mono,
 } from "next/font/google";
+import { site } from "@/lib/data";
 import "./globals.css";
 
 const schibsted = Schibsted_Grotesk({
@@ -23,15 +24,30 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const title = `${site.name} — ${site.role}`;
+const description =
+  "Full-stack developer building reliable web products end to end — from database schema to pixel-perfect UI. Available for roles and select freelance work.";
+
 export const metadata: Metadata = {
-  title: "Faza — Full Stack Developer",
-  description:
-    "Full-stack developer building reliable web products end to end — from database schema to pixel-perfect UI. Available for roles and select freelance work.",
+  metadataBase: new URL(site.url),
+  title,
+  description,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Faza — Full Stack Developer",
+    title,
     description:
       "Full-stack developer building reliable web products end to end.",
     type: "website",
+    url: site.url,
+    siteName: title,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description:
+      "Full-stack developer building reliable web products end to end.",
   },
 };
 

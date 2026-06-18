@@ -1,6 +1,9 @@
 export const site = {
   name: "Faza",
   role: "Full Stack Developer",
+  // TODO: set to the real production domain — used for metadataBase, canonical,
+  // OG/Twitter URLs, sitemap, robots, and JSON-LD.
+  url: "https://faza.dev",
   email: "faza@synetica.co",
   github: "https://github.com/faza",
   linkedin: "https://www.linkedin.com/in/faza",

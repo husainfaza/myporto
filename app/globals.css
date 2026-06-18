@@ -114,8 +114,36 @@ body::before {
   transition: background-size 0.25s ease;
 }
 
-.link-slide:hover {
+.link-slide:hover,
+.link-slide[data-active="true"] {
   background-size: 100% 1px;
+}
+
+/* Blinking terminal cursor */
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.cursor-blink {
+  animation: blink 1.1s step-end infinite;
+}
+
+/* Nudge a trailing arrow on hover (use with group/parent .arrow-nudge) */
+.arrow-nudge {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+a:hover > .arrow-nudge,
+.group:hover .arrow-nudge {
+  transform: translate(2px, -2px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -129,8 +157,12 @@ body::before {
     opacity: 1;
     transform: none;
   }
-  .pulse-dot {
+  .pulse-dot,
+  .cursor-blink {
     animation: none;
+  }
+  .arrow-nudge {
+    transition: none;
   }
 }
 

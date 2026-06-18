@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+Single-page developer portfolio. Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4.
 
-First, run the development server:
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000 (Turbopack)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+npm run build    # production build
+npm run start    # serve the production build
+npm run lint     # eslint
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Editing content
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All page content lives in [`lib/data.ts`](lib/data.ts) — `site`, `projects`,
+`stack`, `experience`. Edit data there; sections render from it automatically.
+No need to touch the JSX in `app/page.tsx`.
 
-## Learn More
+Before deploying, set the real values in `lib/data.ts`:
 
-To learn more about Next.js, take a look at the following resources:
+- `site.url` — production domain (drives metadata, canonical, sitemap, robots, OG image, JSON-LD)
+- `site.github` / `site.linkedin` / `site.x` — real profile URLs
+- `site.email`
+- add `public/resume.pdf` (linked via `site.resumeUrl`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Path | Role |
+| --- | --- |
+| `app/page.tsx` | The page — composes all sections (server component) |
+| `app/layout.tsx` | Root layout, fonts, metadata |
+| `app/globals.css` | Tailwind v4 theme + design tokens + animations |
+| `lib/data.ts` | Site content (single source) |
+| `components/` | `site-nav`, `reveal`, `section-label` |
+| `app/opengraph-image.tsx` | Generated social share image |
+| `app/sitemap.ts` · `app/robots.ts` | SEO routes |
 
-## Deploy on Vercel
+See [`CLAUDE.md`](CLAUDE.md) for architecture and conventions.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploys on [Vercel](https://vercel.com) with zero config. Set `site.url` first
+so generated metadata points at the right domain.

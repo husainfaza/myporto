@@ -1,11 +1,26 @@
 import { SiteNav } from "@/components/site-nav";
 import { SectionLabel } from "@/components/section-label";
 import { Reveal } from "@/components/reveal";
+import { TerminalCard } from "@/components/terminal-card";
 import { site, projects, stack, experience } from "@/lib/data";
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  jobTitle: site.role,
+  url: site.url,
+  email: `mailto:${site.email}`,
+  sameAs: [site.github, site.linkedin, site.x],
+};
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <a
         href="#work"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
@@ -91,52 +106,6 @@ function Hero() {
   );
 }
 
-function TerminalCard() {
-  return (
-    <div className="rounded-xl border border-line bg-surface shadow-[0_24px_80px_-24px_rgba(0,0,0,0.8)]">
-      <div className="flex items-center gap-1.5 border-b border-line px-4 py-3">
-        <span className="h-2.5 w-2.5 rounded-full bg-line-bright" />
-        <span className="h-2.5 w-2.5 rounded-full bg-line-bright" />
-        <span className="h-2.5 w-2.5 rounded-full bg-line-bright" />
-        <span className="ml-3 font-mono text-xs text-muted">faza@dev — zsh</span>
-      </div>
-      <div className="space-y-2.5 px-5 py-5 font-mono text-[13px] leading-relaxed">
-        <p>
-          <span className="text-accent">$</span>{" "}
-          <span className="text-foreground">whoami</span>
-        </p>
-        <p className="text-muted">
-          full-stack developer · typescript · go · postgres
-        </p>
-        <p>
-          <span className="text-accent">$</span>{" "}
-          <span className="text-foreground">cat stack.json</span>
-        </p>
-        <p className="text-muted">
-          {`{ "frontend": "next.js", "backend": "node + go",`}
-          <br />
-          {`  "db": "postgresql", "infra": "aws · docker" }`}
-        </p>
-        <p>
-          <span className="text-accent">$</span>{" "}
-          <span className="text-foreground">make ship</span>
-        </p>
-        <p className="text-muted">
-          build ✓ &nbsp;test ✓ &nbsp;deploy ✓ &nbsp;
-          <span className="text-accent">live ↗</span>
-        </p>
-        <p>
-          <span className="text-accent">$</span>{" "}
-          <span
-            className="inline-block h-4 w-2 translate-y-0.5 bg-accent/80"
-            aria-hidden
-          />
-        </p>
-      </div>
-    </div>
-  );
-}
-
 function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="scroll-mt-20">
@@ -208,7 +177,7 @@ function Work() {
         <div className="mt-12 space-y-6">
           {projects.map((project, i) => (
             <Reveal key={project.title} delay={i * 60}>
-              <article className="group rounded-xl border border-line bg-surface p-8 transition-colors duration-300 hover:border-accent/40 lg:p-10">
+              <article className="group rounded-xl border border-line bg-surface p-8 transition duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.9)] lg:p-10">
                 <div className="grid gap-8 lg:grid-cols-12">
                   <div className="lg:col-span-8">
                     <div className="flex items-baseline gap-4">
@@ -242,7 +211,7 @@ function Work() {
                         rel="noopener noreferrer"
                         className="link-slide text-sm text-foreground transition-colors hover:text-accent"
                       >
-                        Live demo ↗
+                        Live demo <span className="arrow-nudge">↗</span>
                       </a>
                     )}
                     {project.sourceUrl && (
@@ -252,7 +221,7 @@ function Work() {
                         rel="noopener noreferrer"
                         className="link-slide text-sm text-muted transition-colors hover:text-accent"
                       >
-                        Source code ↗
+                        Source code <span className="arrow-nudge">↗</span>
                       </a>
                     )}
                   </div>
@@ -285,7 +254,7 @@ function Stack() {
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {stack.map((group, i) => (
             <Reveal key={group.label} delay={i * 80}>
-              <div className="h-full rounded-xl border border-line bg-surface p-7">
+              <div className="group h-full rounded-xl border border-line bg-surface p-7 transition-colors duration-300 hover:border-line-bright">
                 <h3 className="font-mono text-xs tracking-[0.18em] text-accent">
                   {group.label.toUpperCase()}
                 </h3>
@@ -331,8 +300,8 @@ function ExperienceSection() {
         <div className="mt-12">
           {experience.map((job, i) => (
             <Reveal key={`${job.company}-${job.period}`} delay={i * 60}>
-              <div className="grid gap-3 border-t border-line py-8 last:border-b lg:grid-cols-12 lg:gap-8">
-                <p className="font-mono text-sm text-muted lg:col-span-3">
+              <div className="group grid gap-3 border-t border-line py-8 transition-colors duration-300 last:border-b hover:border-line-bright lg:grid-cols-12 lg:gap-8">
+                <p className="font-mono text-sm text-muted transition-colors duration-300 group-hover:text-foreground lg:col-span-3">
                   {job.period}
                 </p>
                 <div className="lg:col-span-9">

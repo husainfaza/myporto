@@ -14,6 +14,7 @@ const links = [
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -21,6 +22,40 @@ export function SiteNav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Highlight the nav link for the section currently in view.
+  useEffect(() => {
+    const sections = links
+      .map((link) => document.querySelector(link.href))
+      .filter((el): el is Element => el !== null);
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(`#${entry.target.id}`);
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  // Lock body scroll and close on Escape while the mobile menu is open.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   return (
     <header
@@ -47,7 +82,11 @@ export function SiteNav() {
             <a
               key={link.href}
               href={link.href}
-              className="link-slide text-sm text-muted transition-colors hover:text-foreground"
+              aria-current={active === link.href ? "true" : undefined}
+              data-active={active === link.href ? "true" : undefined}
+              className={`link-slide text-sm transition-colors hover:text-foreground ${
+                active === link.href ? "text-foreground" : "text-muted"
+              }`}
             >
               {link.label}
             </a>
@@ -83,7 +122,10 @@ export function SiteNav() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm text-muted hover:text-foreground"
+                aria-current={active === link.href ? "true" : undefined}
+                className={`text-sm hover:text-foreground ${
+                  active === link.href ? "text-foreground" : "text-muted"
+                }`}
                 onClick={() => setOpen(false)}
               >
                 {link.label}
