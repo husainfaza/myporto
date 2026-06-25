@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { site } from "@/lib/data";
+import { ThemeToggle } from "./theme-toggle";
 
 const links = [
   { href: "#about", label: "About" },
@@ -93,26 +94,30 @@ export function SiteNav() {
           ))}
           <a
             href={site.resumeUrl}
-            className="rounded-lg border border-line-bright px-3.5 py-1.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
+            className="rounded-lg border border-line-bright px-3.5 py-1.5 text-sm text-foreground transition-[color,border-color,transform] duration-200 hover:border-accent hover:text-accent active:scale-[0.97]"
           >
             Résumé
           </a>
+          <ThemeToggle />
         </div>
 
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 md:hidden"
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span
-            className={`h-px w-5 bg-foreground transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
-          />
-          <span
-            className={`h-px w-5 bg-foreground transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
-          />
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span
+              className={`h-px w-5 bg-foreground transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
+            />
+            <span
+              className={`h-px w-5 bg-foreground transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
+            />
+          </button>
+        </div>
       </nav>
 
       {open && (

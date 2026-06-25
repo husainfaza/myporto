@@ -9,6 +9,7 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/faza",
   x: "https://x.com/faza",
   resumeUrl: "/resume.pdf",
+  portrait: "/portrait.png",
 };
 
 export type Project = {
@@ -16,6 +17,7 @@ export type Project = {
   outcome: string;
   description: string;
   tags: string[];
+  image?: string;
   liveUrl?: string;
   sourceUrl?: string;
   year: string;
@@ -23,31 +25,26 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Synetica Platform",
-    outcome: "B2B SaaS platform serving production workloads end to end.",
+    title: "Bali Swara",
+    outcome:
+      "Editorial e-commerce for a luxury batik label — heritage told in gold on black.",
     description:
-      "Designed and built the core product — multi-tenant data model, REST + webhook APIs, billing integration, and a dashboard UI. Owned the stack from Postgres schema to deployment on AWS.",
-    tags: ["Next.js", "TypeScript", "PostgreSQL", "Drizzle", "AWS"],
-    liveUrl: "https://synetica.co",
-    year: "2025",
+      "A dark, art-directed storefront for a Balinese batik house. Built the full experience — typographic hero, the Lereng Kembang collection grid, product detail, and cart — with a cinematic black-and-gold visual system and motion that keeps the focus on the cloth.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "E-commerce"],
+    image: "/work/baliswara.png",
+    liveUrl: "#",
+    year: "2026",
   },
   {
-    title: "API Gateway",
-    outcome: "High-throughput gateway handling auth, rate limiting, routing.",
+    title: "Soga Story",
+    outcome:
+      "Warm, story-first shop for Solo Laweyan batik dyed by hand for generations.",
     description:
-      "Go service fronting internal microservices: JWT validation, per-client rate limits backed by Redis, request shaping, and structured audit logs. Deployed via Docker with zero-downtime rollouts.",
-    tags: ["Go", "Redis", "gRPC", "Docker", "Nginx"],
-    sourceUrl: "https://github.com/faza",
-    year: "2024",
-  },
-  {
-    title: "Ops CLI",
-    outcome: "Internal CLI that cut deploy + database tasks to one command.",
-    description:
-      "TypeScript CLI for environment bootstrap, migrations, seeded test data, and tagged releases through GitHub Actions. Adopted as the team's standard tooling.",
-    tags: ["TypeScript", "Node.js", "GitHub Actions", "PostgreSQL"],
-    sourceUrl: "https://github.com/faza",
-    year: "2024",
+      "A commerce site for Kampung Laweyan's batik artisans — landing, collection browsing by category, heritage storytelling, and WhatsApp-based checkout. Soft editorial palette of warm browns and cream that mirrors the soga dye itself.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "WhatsApp Commerce"],
+    image: "/work/soga.png",
+    liveUrl: "#",
+    year: "2026",
   },
 ];
 

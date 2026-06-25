@@ -54,7 +54,11 @@ browser APIs (scroll, IntersectionObserver). Everything else is a server compone
 - **Design tokens live in `app/globals.css`** as CSS custom properties under
   `:root`, surfaced to Tailwind through `@theme inline`. Use semantic utility
   classes (`bg-surface`, `text-muted`, `border-line`, `text-accent`, etc.) rather
-  than raw hex. Dark theme only; accent is lime `--accent: #d7ff6e`.
+  than raw hex. Dark (default) + light themes: tokens swap under
+  `:root[data-theme="dark"|"light"]`. A no-flash inline script in `layout.tsx`
+  sets `data-theme` pre-paint (localStorage `theme`, else `prefers-color-scheme`);
+  `components/theme-toggle.tsx` flips it. Accent is lime `#d7ff6e` (dark) /
+  olive `#4d7c0f` (light, for contrast on white).
 - **Animations** are CSS-driven: `.animate-rise` (initial load, staggered via the
   `--rise-delay` inline var) and `.reveal` / `.is-visible` (scroll-triggered by the
   `Reveal` component). All animations are gated behind `prefers-reduced-motion`.

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { InlineScript } from "@/components/inline-script";
 import {
   Schibsted_Grotesk,
   Instrument_Serif,
@@ -59,8 +60,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${schibsted.variable} ${instrument.variable} ${jetbrains.variable} h-full antialiased`}
     >
+      <head>
+        <InlineScript
+          html={`(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}})();`}
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

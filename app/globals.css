@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-:root {
+:root,
+:root[data-theme="dark"] {
   --background: #0a0a0b;
   --surface: #111113;
   --surface-2: #16161a;
@@ -11,6 +12,23 @@
   --accent: #d7ff6e;
   --accent-dim: #b8e055;
   --accent-ink: #0a0a0b;
+  --grain-opacity: 0.035;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --background: #f6f5f0;
+  --surface: #ffffff;
+  --surface-2: #eeece4;
+  --border: #e2e0d6;
+  --border-bright: #cdcabb;
+  --foreground: #16161a;
+  --muted: #5f5f68;
+  --accent: #4d7c0f;
+  --accent-dim: #3f6212;
+  --accent-ink: #ffffff;
+  --grain-opacity: 0.02;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -31,7 +49,12 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+}
+
+body {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 body {
@@ -55,7 +78,7 @@ body::before {
   inset: 0;
   z-index: 50;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: var(--grain-opacity, 0.035);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -89,6 +112,63 @@ body::before {
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+/* Stagger: parent stays visible, direct children rise in sequence */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-stagger.is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-stagger.is-visible > *:nth-child(1) {
+  transition-delay: 0ms;
+}
+.reveal-stagger.is-visible > *:nth-child(2) {
+  transition-delay: 70ms;
+}
+.reveal-stagger.is-visible > *:nth-child(3) {
+  transition-delay: 140ms;
+}
+.reveal-stagger.is-visible > *:nth-child(4) {
+  transition-delay: 210ms;
+}
+.reveal-stagger.is-visible > *:nth-child(5) {
+  transition-delay: 280ms;
+}
+.reveal-stagger.is-visible > *:nth-child(6) {
+  transition-delay: 350ms;
+}
+.reveal-stagger.is-visible > *:nth-child(n + 7) {
+  transition-delay: 420ms;
+}
+
+/* Pointer-following spotlight glow on cards (set --mx/--my in JS) */
+.card-spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--accent) 14%, transparent),
+    transparent 65%
+  );
+}
+
+.card-spotlight:hover::before {
+  opacity: 1;
 }
 
 @keyframes pulse-dot {
@@ -151,11 +231,15 @@ a:hover > .arrow-nudge,
     scroll-behavior: auto;
   }
   .animate-rise,
-  .reveal {
+  .reveal,
+  .reveal-stagger > * {
     animation: none;
     transition: none;
     opacity: 1;
     transform: none;
+  }
+  .card-spotlight::before {
+    transition: none;
   }
   .pulse-dot,
   .cursor-blink {
