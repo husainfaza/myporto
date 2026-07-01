@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Image from "next/image";
 import { SiteNav } from "@/components/site-nav";
 import { SectionLabel } from "@/components/section-label";
@@ -50,7 +51,7 @@ function Hero() {
       {/* Accent glow behind the right column */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-40 top-1/4 h-[480px] w-[480px] rounded-full bg-accent/[0.07] blur-3xl"
+        className="animate-glow pointer-events-none absolute -right-40 top-1/4 h-[480px] w-[480px] rounded-full bg-accent/[0.07] blur-3xl"
       />
       <div className="mx-auto grid min-h-svh max-w-6xl items-center gap-12 px-6 pb-20 pt-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
         <div className="lg:col-span-7">
@@ -60,24 +61,46 @@ function Hero() {
           >
             FULL STACK DEVELOPER
           </p>
-          <h1
-            className="animate-rise mt-6 text-[clamp(2.75rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight"
-            style={{ "--rise-delay": "80ms" } as React.CSSProperties}
-          >
-            Hi, I&rsquo;m {site.name} — I build{" "}
-            <em className="font-serif font-normal text-accent">reliable</em>{" "}
-            products end to end.
+          <h1 className="mt-6 text-[clamp(2.75rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight">
+            {[
+              { text: "Hi," },
+              { text: "I’m" },
+              { text: site.name },
+              { text: "—" },
+              { text: "I" },
+              { text: "build" },
+              { text: "reliable", accent: true },
+              { text: "products" },
+              { text: "end" },
+              { text: "to" },
+              { text: "end." },
+            ].map((word, i) => (
+              <Fragment key={i}>
+                <span
+                  className="animate-rise inline-block"
+                  style={{ "--rise-delay": `${80 + i * 55}ms` } as React.CSSProperties}
+                >
+                  {word.accent ? (
+                    <em className="font-serif font-normal text-accent">
+                      {word.text}
+                    </em>
+                  ) : (
+                    word.text
+                  )}
+                </span>{" "}
+              </Fragment>
+            ))}
           </h1>
           <p
             className="animate-rise mt-6 max-w-xl text-lg text-muted"
-            style={{ "--rise-delay": "160ms" } as React.CSSProperties}
+            style={{ "--rise-delay": "560ms" } as React.CSSProperties}
           >
             From database schema to pixel-perfect UI — I design, ship, and run
             web applications on real infrastructure.
           </p>
           <div
             className="animate-rise mt-9 flex flex-wrap items-center gap-4"
-            style={{ "--rise-delay": "240ms" } as React.CSSProperties}
+            style={{ "--rise-delay": "660ms" } as React.CSSProperties}
           >
             <a
               href="#work"
@@ -100,7 +123,7 @@ function Hero() {
 
         <div
           className="animate-rise lg:col-span-5"
-          style={{ "--rise-delay": "320ms" } as React.CSSProperties}
+          style={{ "--rise-delay": "760ms" } as React.CSSProperties}
         >
           <TerminalCard />
         </div>
